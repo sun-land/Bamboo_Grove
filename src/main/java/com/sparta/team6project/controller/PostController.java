@@ -5,9 +5,7 @@ import com.sparta.team6project.model.Post;
 import com.sparta.team6project.security.UserDetailsImpl;
 import com.sparta.team6project.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,12 +15,23 @@ public class PostController {
 
     // 게시글 작성
     @PostMapping("/post/write")
-    public Post addPost(
-            @RequestBody PostRequestDto postRequestDto
-    ) {
+    public Post addPost(@RequestBody PostRequestDto postRequestDto) {
         // 로그인 연결 전 임시 객체
         UserDetailsImpl userDetails = new UserDetailsImpl();
 
         return postService.addPost(postRequestDto, userDetails);
     }
+
+    // 게시글 수정
+    @PutMapping("/posts/{postId}")
+    public Post editPost(
+            @PathVariable Long postId,
+            @RequestBody PostRequestDto postRequestDto
+    ) {
+        // 로그인 연결 전 임시 객체
+        UserDetailsImpl userDetails = new UserDetailsImpl();
+
+        return postService.editPost(postId,postRequestDto,userDetails);
+    }
+
 }

@@ -36,4 +36,10 @@ public class Post extends Timestamped {
         this.postUser = postRequestDto.getPostUser();
         this.contents = postRequestDto.getContents();
     }
+
+    // 수정 메소드
+    public void editPost(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.contents = postRequestDto.getContents();
+    }
 }

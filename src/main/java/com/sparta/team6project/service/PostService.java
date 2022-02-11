@@ -20,4 +20,20 @@ public class PostService {
         Post post = new Post(postRequestDto);
         return postRepository.save(post);
     }
+
+    public Post editPost(Long postId, PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
+        // 게시글 유무 확인
+        Post foundPost = postRepository.findById(postId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+
+        // 게시글 작성자 일치 확인
+        if (userDetails.getUsername() != foundPost.getPostUser()) {
+            throw new IllegalArgumentException("타인이 작성한 게시글은 수정할 수 없습니다.");
+        }
+
+        // 게시글 업데이트
+        foundPost.editPost(postRequestDto);
+        return postRepository.save(foundPost);
+
+    }
 }
