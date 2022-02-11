@@ -8,7 +8,7 @@ import java.util.List;
 
 @Setter
 @Getter
-public class PostDto {
+public class PostsResponseDto {
     public String loginUser;
     public List<Post> posts;
 }

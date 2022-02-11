@@ -46,6 +46,7 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
+    // 해당 User의 권한을 리턴
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

@@ -3,13 +3,13 @@ package com.sparta.team6project.service;
 import com.sparta.team6project.dto.SignupRequestDto;
 import com.sparta.team6project.model.User;
 import com.sparta.team6project.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
