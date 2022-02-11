@@ -1,5 +1,4 @@
 package com.sparta.team6project.repository;
 
-public interface
-CommentRepository {
+public interface CommentRepository {
 }
