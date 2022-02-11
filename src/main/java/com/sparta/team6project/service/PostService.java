@@ -1,6 +1,7 @@
 package com.sparta.team6project.service;
 
 import com.sparta.team6project.dto.PostRequestDto;
+import com.sparta.team6project.dto.PostResponseDto;
 import com.sparta.team6project.model.Post;
 import com.sparta.team6project.repository.PostRepository;
 import com.sparta.team6project.security.UserDetailsImpl;
@@ -13,6 +14,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    // 게시글 작성
     public Post addPost(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
 
         String postUser = userDetails.getUsername();
@@ -21,6 +23,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    // 게시글 수정
     public Post editPost(Long postId, PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
         // 게시글 유무 확인
         Post foundPost = postRepository.findById(postId)
@@ -37,6 +40,7 @@ public class PostService {
 
     }
 
+    // 게시글 삭제
     public Long deletePost(Long postId, UserDetailsImpl userDetails) {
 
         // 게시글 유무 확인
@@ -51,5 +55,15 @@ public class PostService {
         // 게시글 삭제
         postRepository.deleteById(postId);
         return postId;
+    }
+
+    // 상세 게시글 조회
+    public PostResponseDto getPost(Long postId, UserDetailsImpl userDetails) {
+        // 게시글 유무 확인
+        Post foundPost = postRepository.findById(postId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+
+        // responseDTO에 담아 보내기
+        return new PostResponseDto(userDetails.getUsername(), foundPost);
     }
 }
