@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @AllArgsConstructor
 @Controller
@@ -25,12 +26,8 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public String registerUser(SignupRequestDto requestDto, Model model){
-        try{userService.registerUser(requestDto);}
-        catch (Exception error){
-            model.addAttribute("errorMessage", error.getMessage());
-            return "signup";
-        }
-        return "redirect:/user/login";
+    public void registerUser(SignupRequestDto requestDto){
+        userService.registerUser(requestDto);
+
     }
 }

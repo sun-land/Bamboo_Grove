@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Timestamped {
-    @CreatedDate
+
+    @CreatedDate // 생성되어 저장될 때 생성일자임를 자동 저장하도록 한다.
     private LocalDateTime createdAt;
 }

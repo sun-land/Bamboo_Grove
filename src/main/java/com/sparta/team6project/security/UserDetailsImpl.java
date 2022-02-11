@@ -1,5 +1,6 @@
 package com.sparta.team6project.security;
 
+
 import com.sparta.team6project.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,5 +50,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+
     }
 }
