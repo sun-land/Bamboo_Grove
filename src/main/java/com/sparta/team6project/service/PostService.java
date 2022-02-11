@@ -1,15 +1,18 @@
 package com.sparta.team6project.service;
 
+
 import com.sparta.team6project.dto.PostRequestDto;
 import com.sparta.team6project.dto.PostResponseDto;
+import com.sparta.team6project.dto.PostDto;
 import com.sparta.team6project.model.Post;
 import com.sparta.team6project.repository.PostRepository;
 import com.sparta.team6project.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Service
@@ -78,9 +81,26 @@ public class PostService {
     public PostResponseDto getPost(Long postId, UserDetailsImpl userDetails) {
         // 게시글 유무 확인
         Post foundPost = postRepository.findById(postId)
-                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 
         // responseDTO에 담아 보내기
         return new PostResponseDto(userDetails.getUsername(), foundPost);
+    }
+
+    // 모든 게시물 조회
+    public PostDto getAllPost(UserDetailsImpl userDetails) {
+        String loginUser = null;
+        // 로그인 식별하기
+        if(userDetails.getUsername() != null) {
+            loginUser = userDetails.getUsername();
+        }
+        // DB에서 시간순으로 정렬해서 불러옴
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+        PostDto postDto = new PostDto();
+        postDto.setLoginUser(loginUser);
+        postDto.setPosts(posts);
+
+        return postDto;
+
     }
 }

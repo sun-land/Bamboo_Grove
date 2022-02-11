@@ -9,8 +9,12 @@ import com.sparta.team6project.security.UserDetailsImpl;
 import com.sparta.team6project.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
+import com.sparta.team6project.dto.PostDto;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -20,10 +24,9 @@ public class PostController {
 
     // 게시글 작성 API
     @PostMapping("/post/write")
-    public ResponseDto addPost(@RequestBody PostRequestDto postRequestDto) {
-        // 로그인 연결 전 임시 객체
-        UserDetailsImpl userDetails = new UserDetailsImpl();
-
+    public ResponseDto addPost(@RequestBody PostRequestDto postRequestDto,
+                               @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
         try {
             postService.addPost(postRequestDto, userDetails);
             return new ResponseDto(true, "게시글이 등록되었습니다.");
@@ -37,10 +40,9 @@ public class PostController {
     @PutMapping("/posts/{postId}")
     public ResponseDto editPost(
             @PathVariable Long postId,
-            @RequestBody PostRequestDto postRequestDto
+            @RequestBody PostRequestDto postRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        // 로그인 연결 전 임시 객체
-        UserDetailsImpl userDetails = new UserDetailsImpl();
         try {
             postService.editPost(postId,postRequestDto,userDetails);
             return new ResponseDto(true, "게시글이 수정되었습니다.");
@@ -54,10 +56,9 @@ public class PostController {
     // 게시글 삭제 API
     @DeleteMapping("/posts/{postId}")
     public ResponseDto deletePost(
-            @PathVariable Long postId
+            @PathVariable Long postId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        // 로그인 연결 전 임시 객체
-        UserDetailsImpl userDetails = new UserDetailsImpl();
 
         try {
             postService.deletePost(postId, userDetails);
@@ -70,11 +71,14 @@ public class PostController {
 
     // 상세 게시글 조회 API
     @GetMapping("/getposts/{postId}")
-    public PostResponseDto getPost(@PathVariable Long postId) {
+    public PostResponseDto getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        // 로그인 연결 전 임시 객체
-        UserDetailsImpl userDetails = new UserDetailsImpl();
 
         return postService.getPost(postId, userDetails);
+    }
+
+    @GetMapping("/posts")
+    public PostDto getAllPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.getAllPost(userDetails);
     }
 }
