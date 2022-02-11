@@ -4,8 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class ResponseDto {
-    private String ok;
+    private boolean ok;
     private String message;
+
+    public ResponseDto(boolean ok, String message) {
+        this.ok = ok;
+        this.message = message;
+    }
 }
