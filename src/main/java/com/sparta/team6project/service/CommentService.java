@@ -25,7 +25,7 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-    public CommentResponse createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+    public Comment createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comment comment = new Comment(commentRequestDto);
         CommentResponse commentResponse = null;
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 존재하지 않습니다."));
@@ -38,16 +38,16 @@ public class CommentService {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         } else{
             commentRepository.save(comment);
-            commentResponse.setOk("TRUE");
-            commentResponse.setMessage("댓글생성 성공");
-            return commentResponse;
+//            commentResponse.setOk("TRUE");
+//            commentResponse.setMessage("댓글생성 성공");
+            return comment;
         }
     }
 
 
-    public CommentResponse updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+    public Comment updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comment comment = new Comment(commentRequestDto);
-        CommentResponse commentResponse = null;
+//        CommentResponse commentResponse = null;
         Post post = postRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
         comment.setCommentUser(userDetails.getUsername());
         comment.setPost(post);
@@ -58,9 +58,9 @@ public class CommentService {
             throw new IllegalArgumentException("댓글 수정에 실패하였습니다.");
         } else{
             commentRepository.save(comment);
-            commentResponse.setOk("TRUE");
-            commentResponse.setMessage("댓글수정 성공");
-            return commentResponse;
+            return comment;
+//            commentResponse.setOk("TRUE");
+//            commentResponse.setMessage("댓글수정 성공");
         }
     }
 

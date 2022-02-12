@@ -31,8 +31,9 @@ public class CommentController {
     public CommentResponse createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        try {
         System.out.println(commentRequestDto.getCommentContents());
-            CommentResponse commentResponse = commentService.createComment(postId, commentRequestDto, userDetails);
-            return commentResponse;
+        Comment comment = commentService.createComment(postId, commentRequestDto, userDetails);
+//        return comment;
+        return new CommentResponse("TRUE", "댓글 생성 완료");
 //            return new ResponseEntity(comment, HttpStatus.OK);
 //        } catch (IllegalArgumentException ex) {
 //            RestApiException restApiException = new RestApiException();
@@ -51,8 +52,10 @@ public class CommentController {
 //    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
     public CommentResponse updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        try {
-        CommentResponse commentResponse = commentService.updateComment(commentId, commentRequestDto, userDetails);
-        return commentResponse;
+        Comment comment = commentService.updateComment(commentId, commentRequestDto, userDetails);
+//        return comment;
+        return new CommentResponse("TRUE", "댓글 생성 완료");
+
 //        } catch (IllegalArgumentException ex) {
 //            RestApiException restApiException = new RestApiException();
 //            restApiException.setOk("false");
