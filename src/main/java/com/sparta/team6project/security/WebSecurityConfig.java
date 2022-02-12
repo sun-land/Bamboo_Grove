@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors().configurationSource(corsConfigurationSource());
         http.csrf().disable();
 
         http.authorizeRequests()
@@ -60,5 +64,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     // 로그아웃 처리 URL
                     .logoutUrl("/user/logout")
                     .permitAll();
+    }
+    // CORS 허용 적용
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
