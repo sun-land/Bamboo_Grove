@@ -73,11 +73,10 @@ public class PostController {
     @GetMapping("/getposts/{postId}")
     public PostResponseDto getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-
         return postService.getPost(postId, userDetails);
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/allposts")
     public PostDto getAllPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return postService.getAllPost(userDetails);
     }
