@@ -29,58 +29,24 @@ public class CommentController {
     @PostMapping("/posts/comments/{postId}")
 //    public ResponseEntity createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto) {
     public CommentResponse createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        try {
         System.out.println(commentRequestDto.getCommentContents());
-            CommentResponse commentResponse = commentService.createComment(postId, commentRequestDto, userDetails);
+            commentService.createComment(postId, commentRequestDto, userDetails);
             return new CommentResponse("TRUE", "댓글 생성 완료");
-//            return commentResponse;
-//            return new ResponseEntity(comment, HttpStatus.OK);
-//        } catch (IllegalArgumentException ex) {
-//            RestApiException restApiException = new RestApiException();
-//            restApiException.setHttpStatus(HttpStatus.BAD_REQUEST);
-//            restApiException.setErrorMessage(ex.getMessage());
-//            return new ResponseEntity(
-//                    // HTTP body
-//                    restApiException,
-//                    // HTTP status code
-//                    HttpStatus.BAD_REQUEST);
-//        }
     }
 
 
     @PutMapping("/comments/{commentId}")
 //    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
     public CommentResponse updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        try {
-        CommentResponse commentResponse = commentService.updateComment(commentId, commentRequestDto, userDetails);
-        return commentResponse;
-//        } catch (IllegalArgumentException ex) {
-//            RestApiException restApiException = new RestApiException();
-//            restApiException.setOk("false");
-//            restApiException.setMessage(ex.getMessage());
-//            return new ResponseEntity(
-//                    // HTTP body
-//                    restApiException,
-//                    // HTTP status code
-//                    HttpStatus.BAD_REQUEST);
+        commentService.updateComment(commentId, commentRequestDto, userDetails);
+        return new CommentResponse("TRUE", "댓글 수정 완료");
         }
 
 
     @DeleteMapping("/comments/{commentId}")
 //    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
-    public CommentResponse deleteComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        try {
-        CommentResponse commentResponse = commentService.deleteComment(commentId, commentRequestDto, userDetails);
-        return commentResponse;
-//        } catch (IllegalArgumentException ex) {
-//            RestApiException restApiException = new RestApiException();
-//            restApiException.setOk("false");
-//            restApiException.setMessage(ex.getMessage());
-//            return new ResponseEntity(
-//                    // HTTP body
-//                    restApiException,
-//                    // HTTP status code
-//                    HttpStatus.BAD_REQUEST);
+    public CommentResponse deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        commentService.deleteComment(commentId, userDetails);
+        return new CommentResponse("TRUE", "댓글 삭제 완료");
     }
-
 }

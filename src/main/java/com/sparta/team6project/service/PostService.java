@@ -27,15 +27,11 @@ public class PostService {
         String postUser = userDetails.getUsername();
         postRequestDto.setPostUser(postUser);
 
-        // 글 제목, 내용 정규식
-        Pattern pattern = Pattern.compile("^[\\S]*$");
-        Matcher titleMatcher = pattern.matcher(postRequestDto.getTitle());
-        Matcher contentsMatcher = pattern.matcher(postRequestDto.getContents());
 
         // 게시글 확인
-        if (postRequestDto.getTitle().isEmpty()||!titleMatcher.matches()) {
+        if (postRequestDto.getTitle().trim().isEmpty()) {
             throw new IllegalArgumentException("제목을 입력해주세요.");
-        } else if (postRequestDto.getContents().isEmpty()||!contentsMatcher.matches()) {
+        } else if (postRequestDto.getContents().trim().isEmpty()) {
             throw new IllegalArgumentException("내용을 입력해주세요.");
         }
 
