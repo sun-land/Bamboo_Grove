@@ -32,7 +32,8 @@ public class CommentController {
 //        try {
         System.out.println(commentRequestDto.getCommentContents());
             CommentResponse commentResponse = commentService.createComment(postId, commentRequestDto, userDetails);
-            return commentResponse;
+            return new CommentResponse("TRUE", "댓글 생성 완료");
+//            return commentResponse;
 //            return new ResponseEntity(comment, HttpStatus.OK);
 //        } catch (IllegalArgumentException ex) {
 //            RestApiException restApiException = new RestApiException();

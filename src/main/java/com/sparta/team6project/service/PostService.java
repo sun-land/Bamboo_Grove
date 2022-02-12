@@ -96,7 +96,7 @@ public class PostService {
     public PostDto getAllPost(UserDetailsImpl userDetails) {
         String loginUser = null;
         // 로그인 식별하기
-        if(userDetails.getUsername() != null) {
+        if(userDetails != null) {
             loginUser = userDetails.getUsername();
         }
         // DB에서 시간순으로 정렬해서 불러옴

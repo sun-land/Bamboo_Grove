@@ -27,13 +27,9 @@ public class PostController {
     public ResponseDto addPost(@RequestBody PostRequestDto postRequestDto,
                                @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        try {
-            postService.addPost(postRequestDto, userDetails);
-            return new ResponseDto(true, "게시글이 등록되었습니다.");
-        } catch (IllegalArgumentException e) {
-            String message = e.getMessage();
-            return new ResponseDto(false, message);
-        }
+        postService.addPost(postRequestDto, userDetails);
+        return new ResponseDto(true, "게시글이 등록되었습니다.");
+
     }
 
     // 게시글 수정 API
@@ -43,13 +39,8 @@ public class PostController {
             @RequestBody PostRequestDto postRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        try {
-            postService.editPost(postId,postRequestDto,userDetails);
-            return new ResponseDto(true, "게시글이 수정되었습니다.");
-        } catch (IllegalArgumentException e) {
-            String message = e.getMessage();
-            return new ResponseDto(false, message);
-        }
+        postService.editPost(postId,postRequestDto,userDetails);
+        return new ResponseDto(true, "게시글이 수정되었습니다.");
 
     }
 
@@ -59,14 +50,9 @@ public class PostController {
             @PathVariable Long postId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
+        postService.deletePost(postId, userDetails);
+        return new ResponseDto(true, "게시글이 삭제되었습니다.");
 
-        try {
-            postService.deletePost(postId, userDetails);
-            return new ResponseDto(true, "게시글이 삭제되었습니다.");
-        } catch(IllegalArgumentException e) {
-            String message = e.getMessage();
-            return new ResponseDto(false, message);
-        }
     }
 
     // 상세 게시글 조회 API
