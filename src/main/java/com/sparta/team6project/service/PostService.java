@@ -79,12 +79,17 @@ public class PostService {
 
     // 상세 게시글 조회 메소드
     public PostResponseDto getPost(Long postId, UserDetailsImpl userDetails) {
+        String loginUser = null;
+        // 로그인 식별하기
+        if(userDetails != null) {
+            loginUser = userDetails.getUsername();
+        }
         // 게시글 유무 확인
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 
         // responseDTO에 담아 보내기
-        return new PostResponseDto(userDetails.getUsername(), foundPost);
+        return new PostResponseDto(loginUser, foundPost);
     }
 
     // 모든 게시물 조회
