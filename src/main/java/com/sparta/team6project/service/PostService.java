@@ -23,7 +23,7 @@ public class PostService {
             loginUser = userDetails.getUsername();
         }
         // DB에서 시간순으로 정렬해서 불러옴
-        List<Post> posts = postRepository.findAllOrderByCreatedAtDesc();
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         PostsResponseDto postDto = new PostsResponseDto();
         postDto.setLoginUser(loginUser);
         postDto.setPosts(posts);
