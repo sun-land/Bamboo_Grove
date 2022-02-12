@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class CommentController {
 //    public ResponseEntity createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto) {
     public CommentResponse createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        try {
+        System.out.println(commentRequestDto.getCommentContents());
             CommentResponse commentResponse = commentService.createComment(postId, commentRequestDto, userDetails);
             return commentResponse;
 //            return new ResponseEntity(comment, HttpStatus.OK);

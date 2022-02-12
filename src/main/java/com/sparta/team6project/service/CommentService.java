@@ -1,5 +1,6 @@
 package com.sparta.team6project.service;
 
+
 import com.sparta.team6project.dto.CommentRequestDto;
 import com.sparta.team6project.exception.CommentResponse;
 import com.sparta.team6project.model.Comment;
@@ -11,21 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
+    private PostRepository postRepository;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, PostRepository postRepository) {
         this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
     }
 
     public CommentResponse createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comment comment = new Comment(commentRequestDto);
         CommentResponse commentResponse = null;
-        Post post = postRepository.findById(postId).orElseThrow() -> new NullPointerException("게시글이 존재하지 않습니다.");
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 존재하지 않습니다."));
         comment.setCommentUser(userDetails.getUsername());
         comment.setPost(post);
 
@@ -45,7 +48,7 @@ public class CommentService {
     public CommentResponse updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comment comment = new Comment(commentRequestDto);
         CommentResponse commentResponse = null;
-        Post post = postRepository.findById(commentId).orElseThrow() -> new NullPointerException("댓글이 존재하지 않습니다.");
+        Post post = postRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
         comment.setCommentUser(userDetails.getUsername());
         comment.setPost(post);
 
@@ -64,7 +67,7 @@ public class CommentService {
     public CommentResponse deleteComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comment comment = new Comment(commentRequestDto);
         CommentResponse commentResponse = null;
-        Post post = postRepository.findById(commentId).orElseThrow() -> new NullPointerException("댓글이 존재하지 않습니다.");
+        Post post = postRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
         comment.setCommentUser(userDetails.getUsername());
         comment.setPost(post);
 

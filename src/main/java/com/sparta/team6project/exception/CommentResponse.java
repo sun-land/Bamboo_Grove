@@ -8,6 +8,6 @@ import org.springframework.http.HttpStatus;
 @Setter
 public class CommentResponse {
 //    private HttpStatus httpStatus;
-    private String Ok;
+    private String ok;
     private String message;
 }

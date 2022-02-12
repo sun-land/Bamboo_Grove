@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 //@NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Setter
 @Getter
 public class CommentRequestDto {

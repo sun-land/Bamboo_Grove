@@ -1,5 +1,7 @@
 package com.sparta.team6project.model;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.team6project.dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,7 @@ public class Comment {
     @Column(nullable = false)
     private String commentContents;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "postId", nullable = false) // Post 테이블의 id(PK)와 조인
     private Post post;
@@ -33,6 +36,4 @@ public class Comment {
         this.commentContents = commentRequestDto.getCommentContents();
 //        this.post = commentRequestDto.getPost();
     }
-
-
 }
