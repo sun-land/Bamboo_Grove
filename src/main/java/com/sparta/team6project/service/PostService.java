@@ -27,15 +27,11 @@ public class PostService {
         String postUser = userDetails.getUsername();
         postRequestDto.setPostUser(postUser);
 
-        // 글 제목, 내용 정규식
-        Pattern pattern = Pattern.compile("^[\\S]*$");
-        Matcher titleMatcher = pattern.matcher(postRequestDto.getTitle());
-        Matcher contentsMatcher = pattern.matcher(postRequestDto.getContents());
 
         // 게시글 확인
-        if (postRequestDto.getTitle().isEmpty()||!titleMatcher.matches()) {
+        if (postRequestDto.getTitle().trim().isEmpty()) {
             throw new IllegalArgumentException("제목을 입력해주세요.");
-        } else if (postRequestDto.getContents().isEmpty()||!contentsMatcher.matches()) {
+        } else if (postRequestDto.getContents().trim().isEmpty()) {
             throw new IllegalArgumentException("내용을 입력해주세요.");
         }
 
@@ -79,19 +75,24 @@ public class PostService {
 
     // 상세 게시글 조회 메소드
     public PostResponseDto getPost(Long postId, UserDetailsImpl userDetails) {
+        String loginUser = null;
+        // 로그인 식별하기
+        if(userDetails != null) {
+            loginUser = userDetails.getUsername();
+        }
         // 게시글 유무 확인
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 
         // responseDTO에 담아 보내기
-        return new PostResponseDto(userDetails.getUsername(), foundPost);
+        return new PostResponseDto(loginUser, foundPost);
     }
 
     // 모든 게시물 조회
     public PostDto getAllPost(UserDetailsImpl userDetails) {
         String loginUser = null;
         // 로그인 식별하기
-        if(userDetails.getUsername() != null) {
+        if(userDetails != null) {
             loginUser = userDetails.getUsername();
         }
         // DB에서 시간순으로 정렬해서 불러옴

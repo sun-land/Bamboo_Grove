@@ -25,9 +25,10 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-    public Comment createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+
+
+    public void createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comment comment = new Comment(commentRequestDto);
-        CommentResponse commentResponse = null;
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 존재하지 않습니다."));
         comment.setCommentUser(userDetails.getUsername());
         comment.setPost(post);
@@ -38,46 +39,33 @@ public class CommentService {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         } else{
             commentRepository.save(comment);
-//            commentResponse.setOk("TRUE");
-//            commentResponse.setMessage("댓글생성 성공");
-            return comment;
+
         }
     }
 
 
-    public Comment updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
-        Comment comment = new Comment(commentRequestDto);
-//        CommentResponse commentResponse = null;
-        Post post = postRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
-        comment.setCommentUser(userDetails.getUsername());
-        comment.setPost(post);
+
+    public void updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
 
         String commentUser = comment.getCommentUser();
+        comment.setCommentContents(commentRequestDto.getCommentContents());
 
-        if(commentUser==null || commentUser==""){
-            throw new IllegalArgumentException("댓글 수정에 실패하였습니다.");
-        } else{
+
+        // 댓글 쓴 사람이 로그인한 사람인지 확인
+        if(comment.getCommentUser().equals(userDetails.getUsername())){
             commentRepository.save(comment);
-            return comment;
-//            commentResponse.setOk("TRUE");
-//            commentResponse.setMessage("댓글수정 성공");
+
+        } else{
+            throw new IllegalArgumentException("댓글 수정에 실패하였습니다.");
         }
     }
 
-    public CommentResponse deleteComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
-        Comment comment = new Comment(commentRequestDto);
-        CommentResponse commentResponse = null;
-        Post post = postRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
-        comment.setCommentUser(userDetails.getUsername());
-        comment.setPost(post);
+    public void deleteComment(Long commentId, UserDetailsImpl userDetails) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
 
-        String commentUser = comment.getCommentUser();
-
-        if(post.getPostUser()==commentUser){
-            commentRepository.delete(comment);
-            commentResponse.setOk("TRUE");
-            commentResponse.setMessage("댓글삭제제 성공");
-           return commentResponse;
+        if(comment.getCommentUser().equals(userDetails.getUsername())){
+            commentRepository.deleteById(commentId);
         } else{
             throw new IllegalArgumentException("댓글 삭제에 실패하였습니다.");
         }
