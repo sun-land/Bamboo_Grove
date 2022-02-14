@@ -2,34 +2,21 @@ package com.sparta.team6project.controller;
 
 import com.sparta.team6project.dto.SignupRequestDto;
 import com.sparta.team6project.service.UserService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@AllArgsConstructor
-@Controller
+@RequiredArgsConstructor
+@RestController
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user/login")
-    public String login(){
-        return "login";
-    }
-
-    @GetMapping("/user/signup")
-    public String signup(){
-        return "signup";
-    }
-
     @PostMapping("/user/signup")
-    public String registerUser(SignupRequestDto requestDto){
-
+    public void registerUser(@RequestBody SignupRequestDto requestDto){
         userService.registerUser(requestDto);
-
-        return "redirect:/user/login";
     }
+
+
 }
