@@ -26,15 +26,10 @@ public class PostService {
     // 게시글 작성 메소드
     public void addPost(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
 
-        // 임시 테스트용 postUser
-        String postUser = null;
-        if (userDetails == null) {
-            postUser = "sparta";
-        }
 
 
         // 게시글에 작성자 추가
-        //String postUser = userDetails.getUsername();
+        String postUser = userDetails.getUsername();
         postRequestDto.setPostUser(postUser);
 
 

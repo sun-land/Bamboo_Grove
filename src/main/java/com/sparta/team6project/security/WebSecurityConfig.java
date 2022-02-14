@@ -1,5 +1,7 @@
 package com.sparta.team6project.security;
 
+import com.sparta.team6project.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -7,15 +9,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+//    private final CorsFilter corsFilter;
+    private final UserRepository userRepository;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
@@ -34,36 +42,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().configurationSource(corsConfigurationSource());
         http.csrf().disable();
 
-        http.authorizeRequests()
-                // 게시글 작성 인증
-                //.antMatchers("/post/write").authenticated()
-                // 게시글 수정, 삭제 인증
-                //.antMatchers("/posts/**").authenticated()
-                // 댓글 작성 인증
-                //.antMatchers("/posts/comments/**").authenticated()
-                // 댓글 수정, 삭제 인증
-                //.antMatchers("/comments/**").authenticated()
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+//                .addFilter(corsFilter)
+                .formLogin().disable()
+                .httpBasic().disable()
+                .addFilter(new JwtAuthenticationFilter(authenticationManager())) // AuthenticationManager
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository)) // AuthenticationManager
+                .authorizeRequests()
+                .antMatchers("/post/write").authenticated()
+                .antMatchers("/posts/**").authenticated()
+                .antMatchers("/posts/comments/**").authenticated()
+                .antMatchers("/comments/**").authenticated()
+                .anyRequest().permitAll();
 
-                // 그 외 어떤 요청이든 허가
-                .anyRequest().permitAll()
-                .and()
-                    // 로그인 기능
-                    .formLogin()
-                    // 로그인 view 제공 (GET /user/login)
-                    .loginPage("/user/login")
-                    // 로그인 처리 (POST /user/login)
-                    .loginProcessingUrl("/user/login")
-                    // 로그인 성공 시 URL
-                    .defaultSuccessUrl("/")
-                    // 로그인 실패 시 URL
-                    .failureUrl("/user/login?error")
-                    .permitAll()
-                .and()
-                    // 로그아웃 기능
-                    .logout()
-                    // 로그아웃 처리 URL
-                    .logoutUrl("/user/logout")
-                    .permitAll();
     }
     // CORS 허용 적용
     @Bean
