@@ -2,7 +2,12 @@ package com.sparta.team6project.repository;
 
 
 import com.sparta.team6project.model.Comment;
+import com.sparta.team6project.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+
+    List<Comment> findAllByPost(Post post);
 }

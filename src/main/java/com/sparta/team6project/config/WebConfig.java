@@ -12,7 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 //.allowedOrigins("http://localhost:8080", "http://mintest1.s3-website.ap-northeast-2.amazonaws.com/")
-                .allowedMethods("*")
-                .maxAge(3000);
+                .allowedMethods("*") // 기타 설정
+                .allowedHeaders("*");
+
     }
 }
