@@ -27,6 +27,10 @@ public class PostController {
     public ResponseDto addPost(@RequestBody PostRequestDto postRequestDto,
                                @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
+        System.out.println(postRequestDto.getTitle());
+        System.out.println(postRequestDto.getContents());
+        System.out.println(postRequestDto.getPostUser());
+
         postService.addPost(postRequestDto, userDetails);
         return new ResponseDto(true, "게시글이 등록되었습니다.");
 

@@ -36,13 +36,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 // 게시글 작성 인증
-                .antMatchers("/post/write").authenticated()
+                //.antMatchers("/post/write").authenticated()
                 // 게시글 수정, 삭제 인증
-                .antMatchers("/posts/**").authenticated()
+                //.antMatchers("/posts/**").authenticated()
                 // 댓글 작성 인증
-                .antMatchers("/posts/comments/**").authenticated()
+                //.antMatchers("/posts/comments/**").authenticated()
                 // 댓글 수정, 삭제 인증
-                .antMatchers("/comments/**").authenticated()
+                //.antMatchers("/comments/**").authenticated()
 
                 // 그 외 어떤 요청이든 허가
                 .anyRequest().permitAll()

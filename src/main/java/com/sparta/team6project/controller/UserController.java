@@ -26,8 +26,9 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public String registerUser(SignupRequestDto requestDto){
+    public String registerUser(@RequestBody SignupRequestDto requestDto){
 
+        System.out.println(requestDto.getUsername());
         userService.registerUser(requestDto);
 
         return "redirect:/user/login";
