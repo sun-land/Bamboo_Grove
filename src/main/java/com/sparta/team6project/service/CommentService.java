@@ -25,6 +25,7 @@ public class CommentService {
     }
 
 
+
     public void createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
 
         Comment comment = new Comment(commentRequestDto);
