@@ -2,7 +2,6 @@ package com.sparta.team6project.service;
 
 
 import com.sparta.team6project.dto.CommentRequestDto;
-import com.sparta.team6project.exception.CommentResponse;
 import com.sparta.team6project.model.Comment;
 import com.sparta.team6project.model.Post;
 import com.sparta.team6project.repository.CommentRepository;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
     @Autowired
     public CommentService(CommentRepository commentRepository, PostRepository postRepository) {

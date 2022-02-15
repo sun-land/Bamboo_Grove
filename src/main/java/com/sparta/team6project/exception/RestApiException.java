@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 @Setter
 public class RestApiException {
-    //    private HttpStatus httpStatus;
+    private boolean ok;
     private String errorMessage;
-    private String ok;
 }

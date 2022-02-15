@@ -56,6 +56,13 @@ public class PostService {
             throw new IllegalArgumentException("타인이 작성한 게시글은 수정할 수 없습니다.");
         }
 
+        // 게시글 수정 내용 확인
+        if (postRequestDto.getTitle().trim().isEmpty()) {
+            throw new IllegalArgumentException("제목을 입력해주세요.");
+        } else if (postRequestDto.getContents().trim().isEmpty()) {
+            throw new IllegalArgumentException("내용을 입력해주세요.");
+        }
+
         // 게시글 업데이트
         foundPost.editPost(postRequestDto);
         postRepository.save(foundPost);

@@ -12,8 +12,7 @@ public class RestApiExceptionHandler {
     @ExceptionHandler(value = { IllegalArgumentException.class})
     public ResponseEntity<Object> handleApiRequestException(IllegalArgumentException ex) {
         RestApiException restApiException = new RestApiException();
-//        restApiException.setHttpStatus(HttpStatus.BAD_REQUEST);
-        restApiException.setOk("false");
+        restApiException.setOk(false);
         restApiException.setErrorMessage(ex.getMessage());
 
         return new ResponseEntity(
@@ -25,8 +24,7 @@ public class RestApiExceptionHandler {
     @ExceptionHandler(value = { NullPointerException.class})
     public ResponseEntity<Object> handleApiRequestException(NullPointerException ex) {
         RestApiException restApiException = new RestApiException();
-//        restApiException.setHttpStatus(HttpStatus.BAD_REQUEST);
-        restApiException.setOk("false");
+        restApiException.setOk(false);
         restApiException.setErrorMessage(ex.getMessage());
 
         return new ResponseEntity(
