@@ -1,15 +1,14 @@
 package com.sparta.team6project.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-public class ResponseDto {
+public class SuccessResponseDto {
     private boolean ok;
     private String message;
 
-    public ResponseDto(boolean ok, String message) {
-        this.ok = ok;
+    public SuccessResponseDto(String message) {
+        this.ok = true;
         this.message = message;
     }
 }
