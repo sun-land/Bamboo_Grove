@@ -24,6 +24,7 @@ public class CommentController {
 //    public ResponseEntity createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto) {
     public SuccessResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         System.out.println(commentRequestDto.getCommentContents());
+
         commentService.createComment(postId, commentRequestDto, userDetails);
         return new SuccessResponseDto("댓글 생성 완료");
 
@@ -32,9 +33,11 @@ public class CommentController {
 
     @PutMapping("/comments/{commentId}")
 //    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
+
     public SuccessResponseDto updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         commentService.updateComment(commentId, commentRequestDto, userDetails);
         return new SuccessResponseDto("댓글 수정 완료");
+
         }
 
 
