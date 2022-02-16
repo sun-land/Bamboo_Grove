@@ -2,12 +2,12 @@ package com.sparta.team6project.controller;
 
 import com.sparta.team6project.dto.PostRequestDto;
 import com.sparta.team6project.dto.PostDetailResponseDto;
-import com.sparta.team6project.dto.SuccessResponseDto;
+import com.sparta.team6project.dto.PostSuccessResponseDto;
 import com.sparta.team6project.security.UserDetailsImpl;
 import com.sparta.team6project.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import com.sparta.team6project.dto.PostDto;
+import com.sparta.team6project.dto.AllPostDto;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,12 +23,9 @@ public class PostController {
 
     // 게시글 작성 API
     @PostMapping("/post/write")
-    public HashMap<String, Long> addPost(@RequestBody PostRequestDto postRequestDto,
-                                      @AuthenticationPrincipal UserDetailsImpl userDetails
+    public PostSuccessResponseDto addPost(@RequestBody PostRequestDto postRequestDto,
+                                          @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        System.out.println(postRequestDto.getTitle());
-        System.out.println(postRequestDto.getContents());
-        System.out.println(postRequestDto.getPostUser());
 
         return postService.addPost(postRequestDto, userDetails);
 
@@ -36,7 +33,7 @@ public class PostController {
 
     // 게시글 수정 API
     @PutMapping("/posts/{postId}")
-    public HashMap<String, Long> editPost(
+    public PostSuccessResponseDto editPost(
             @PathVariable Long postId,
             @RequestBody PostRequestDto postRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -63,8 +60,9 @@ public class PostController {
         return postService.getPost(postId, userDetails);
     }
 
+    // 모든 게시글 조회 API
     @GetMapping("/allposts")
-    public PostDto getAllPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public AllPostDto getAllPost(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return postService.getAllPost(userDetails);
     }
 }

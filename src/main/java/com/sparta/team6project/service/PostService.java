@@ -1,10 +1,7 @@
 package com.sparta.team6project.service;
 
 
-import com.sparta.team6project.dto.PostRequestDto;
-import com.sparta.team6project.dto.PostDetailResponseDto;
-import com.sparta.team6project.dto.PostDto;
-import com.sparta.team6project.dto.PostResponseDto;
+import com.sparta.team6project.dto.*;
 import com.sparta.team6project.model.Comment;
 import com.sparta.team6project.model.Post;
 import com.sparta.team6project.repository.CommentRepository;
@@ -27,7 +24,7 @@ public class PostService {
     private final CommentRepository commentRepository;
 
     // 게시글 작성 메소드
-    public HashMap<String, Long> addPost(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
+    public PostSuccessResponseDto addPost(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
 
         // 게시글에 작성자 추가
         String postUser = userDetails.getUsername();
@@ -43,13 +40,12 @@ public class PostService {
         // 게시글 저장
         Post post = new Post(postRequestDto);
         Post savePost = postRepository.save(post);
-        HashMap<String, Long> responseId = new HashMap<>();
-        responseId.put("postId", savePost.getId());
-        return responseId;
+
+        return new PostSuccessResponseDto(savePost);
     }
 
     // 게시글 수정 메소드
-    public HashMap<String, Long> editPost(Long postId, PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
+    public PostSuccessResponseDto editPost(Long postId, PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
         // 게시글 유무 확인
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 게시글입니다."));
@@ -69,9 +65,8 @@ public class PostService {
         // 게시글 업데이트
         foundPost.editPost(postRequestDto);
         Post editPost = postRepository.save(foundPost);
-        HashMap<String, Long> responseId = new HashMap<>();
-        responseId.put("postId", editPost.getId());
-        return responseId;
+
+        return new PostSuccessResponseDto(editPost);
 
     }
 
@@ -110,12 +105,19 @@ public class PostService {
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 
+        // 게시글의 댓글들을 commentResponseDto에 담아 commnets 리스트 만들기
+        List<CommentResponseDto> comments = new ArrayList<>();
+        for (Comment comment : foundPost.getComments()) {
+            CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
+            comments.add(commentResponseDto);
+        }
+
         // responseDTO에 담아 보내기
-        return new PostDetailResponseDto(loginUser, foundPost);
+        return new PostDetailResponseDto(loginUser, foundPost, comments);
     }
 
     // 모든 게시물 조회
-    public PostDto getAllPost(UserDetailsImpl userDetails) {
+    public AllPostDto getAllPost(UserDetailsImpl userDetails) {
         String loginUser = null;
         // 로그인 식별하기
         if(userDetails != null) {
@@ -135,7 +137,7 @@ public class PostService {
             responseDtos.add(dto);
         }
 
-        PostDto postDto = new PostDto();
+        AllPostDto postDto = new AllPostDto();
         postDto.setLoginUser(loginUser);
         postDto.setPosts(responseDtos);
 
