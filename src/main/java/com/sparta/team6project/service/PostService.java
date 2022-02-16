@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -26,14 +27,11 @@ public class PostService {
     private final CommentRepository commentRepository;
 
     // 게시글 작성 메소드
-    public void addPost(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
-
-
+    public HashMap<String, Long> addPost(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
 
         // 게시글에 작성자 추가
         String postUser = userDetails.getUsername();
         postRequestDto.setPostUser(postUser);
-
 
         // 게시글 확인
         if (postRequestDto.getTitle().trim().isEmpty()) {
@@ -44,11 +42,14 @@ public class PostService {
 
         // 게시글 저장
         Post post = new Post(postRequestDto);
-        postRepository.save(post);
+        Post savePost = postRepository.save(post);
+        HashMap<String, Long> responseId = new HashMap<>();
+        responseId.put("postId", savePost.getId());
+        return responseId;
     }
 
     // 게시글 수정 메소드
-    public void editPost(Long postId, PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
+    public HashMap<String, Long> editPost(Long postId, PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
         // 게시글 유무 확인
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 게시글입니다."));
@@ -67,12 +68,15 @@ public class PostService {
 
         // 게시글 업데이트
         foundPost.editPost(postRequestDto);
-        postRepository.save(foundPost);
+        Post editPost = postRepository.save(foundPost);
+        HashMap<String, Long> responseId = new HashMap<>();
+        responseId.put("postId", editPost.getId());
+        return responseId;
 
     }
 
     // 게시글 삭제 메소드
-    public void deletePost(Long postId, UserDetailsImpl userDetails) {
+    public HashMap<String, Long> deletePost(Long postId, UserDetailsImpl userDetails) {
 
         // 게시글 유무 확인
         Post foundPost = postRepository.findById(postId)
@@ -87,8 +91,12 @@ public class PostService {
         List<Comment> foundComments = commentRepository.findAllByPost(foundPost);
         commentRepository.deleteAll(foundComments);
 
+        HashMap<String, Long> responseId = new HashMap<>();
+        responseId.put("postId", foundPost.getId());
         // 게시글 삭제
         postRepository.deleteById(postId);
+
+        return responseId;
     }
 
     // 상세 게시글 조회 메소드

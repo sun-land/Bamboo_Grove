@@ -1,8 +1,10 @@
 package com.sparta.team6project.exception;
 
+import com.sparta.team6project.model.Post;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+
 
 //@Getter
 //@Setter
