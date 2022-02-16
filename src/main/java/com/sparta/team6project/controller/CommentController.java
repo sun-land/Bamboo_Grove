@@ -27,16 +27,30 @@ public class CommentController {
     public HashMap<String, Long> createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         System.out.println(commentRequestDto.getCommentContents());
 
+<<<<<<< HEAD
         return commentService.createComment(postId, commentRequestDto, userDetails);
+=======
+
+        commentService.createComment(postId, commentRequestDto, userDetails);
+        return new SuccessResponseDto("댓글 생성 완료");
+>>>>>>> bc62a1376e5a4a0289fc6f692f265cbaadd6c8b3
+
 
     }
 
 
     @PutMapping("/comments/{commentId}")
+<<<<<<< HEAD
 //    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
 
     public HashMap<String, Long> updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.updateComment(commentId, commentRequestDto, userDetails);
+=======
+    public SuccessResponseDto updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        commentService.updateComment(commentId, commentRequestDto, userDetails);
+        return new SuccessResponseDto("댓글 수정 완료");
+
+>>>>>>> bc62a1376e5a4a0289fc6f692f265cbaadd6c8b3
 
         }
 
