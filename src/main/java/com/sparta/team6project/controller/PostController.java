@@ -1,7 +1,7 @@
 package com.sparta.team6project.controller;
 
 import com.sparta.team6project.dto.PostRequestDto;
-import com.sparta.team6project.dto.PostResponseDto;
+import com.sparta.team6project.dto.PostDetailResponseDto;
 import com.sparta.team6project.dto.SuccessResponseDto;
 import com.sparta.team6project.security.UserDetailsImpl;
 import com.sparta.team6project.service.PostService;
@@ -58,7 +58,7 @@ public class PostController {
 
     // 상세 게시글 조회 API
     @GetMapping("/getposts/{postId}")
-    public PostResponseDto getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public PostDetailResponseDto getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return postService.getPost(postId, userDetails);
     }

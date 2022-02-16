@@ -2,7 +2,7 @@ package com.sparta.team6project.service;
 
 
 import com.sparta.team6project.dto.PostRequestDto;
-import com.sparta.team6project.dto.PostResponseDto;
+import com.sparta.team6project.dto.PostDetailResponseDto;
 import com.sparta.team6project.dto.PostDto;
 import com.sparta.team6project.model.Comment;
 import com.sparta.team6project.model.Post;
@@ -11,8 +11,7 @@ import com.sparta.team6project.repository.PostRepository;
 import com.sparta.team6project.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 import java.util.List;
 
 
@@ -72,8 +71,6 @@ public class PostService {
     // 게시글 삭제 메소드
     public void deletePost(Long postId, UserDetailsImpl userDetails) {
 
-
-
         // 게시글 유무 확인
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 게시글입니다."));
@@ -83,18 +80,16 @@ public class PostService {
             throw new IllegalArgumentException("타인이 작성한 게시글은 삭제할 수 없습니다.");
         }
 
-        // 댓글 먼저 삭제(완료)
+        // 댓글 먼저 삭제
         List<Comment> foundComments = commentRepository.findAllByPost(foundPost);
-        for (Comment comment:foundComments) {
-            commentRepository.deleteById(comment.getId());
-        }
+        commentRepository.deleteAll(foundComments);
 
         // 게시글 삭제
         postRepository.deleteById(postId);
     }
 
     // 상세 게시글 조회 메소드
-    public PostResponseDto getPost(Long postId, UserDetailsImpl userDetails) {
+    public PostDetailResponseDto getPost(Long postId, UserDetailsImpl userDetails) {
         String loginUser = null;
         // 로그인 식별하기
         if(userDetails != null) {
@@ -105,7 +100,7 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 
         // responseDTO에 담아 보내기
-        return new PostResponseDto(loginUser, foundPost);
+        return new PostDetailResponseDto(loginUser, foundPost);
     }
 
     // 모든 게시물 조회
