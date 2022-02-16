@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
 
 @Service
 public class CommentService {
@@ -25,7 +27,7 @@ public class CommentService {
     }
 
 
-    public void createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+    public HashMap<String, Long> createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
 
         Comment comment = new Comment(commentRequestDto);
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 존재하지 않습니다."));
@@ -37,14 +39,17 @@ public class CommentService {
         if(commentUser==null || commentUser==""){
             throw new IllegalArgumentException("로그인이 필요합니다.");
         } else{
-            commentRepository.save(comment);
+            Comment saveComment = commentRepository.save(comment);
+            HashMap<String, Long> responseId = new HashMap<>();
+            responseId.put("commentId", saveComment.getId());
+            return responseId;
 
         }
     }
 
 
 
-    public void updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+    public HashMap<String, Long> updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
 
 
@@ -54,19 +59,24 @@ public class CommentService {
 
         // 댓글 쓴 사람이 로그인한 사람인지 확인
         if(comment.getCommentUser().equals(userDetails.getUsername())){
-            commentRepository.save(comment);
-
+            Comment saveComment = commentRepository.save(comment);
+            HashMap<String, Long> responseId = new HashMap<>();
+            responseId.put("commentId", saveComment.getId());
+            return responseId;
         } else{
             throw new IllegalArgumentException("댓글 수정에 실패하였습니다.");
 
         }
     }
 
-    public void deleteComment(Long commentId, UserDetailsImpl userDetails) {
+    public HashMap<String, Long> deleteComment(Long commentId, UserDetailsImpl userDetails) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
 
         if(comment.getCommentUser().equals(userDetails.getUsername())){
+            HashMap<String, Long> responseId = new HashMap<>();
+            responseId.put("commentId", comment.getId());
             commentRepository.deleteById(commentId);
+            return responseId;
         } else{
             throw new IllegalArgumentException("댓글 삭제에 실패하였습니다.");
         }

@@ -12,6 +12,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -21,38 +23,36 @@ public class PostController {
 
     // 게시글 작성 API
     @PostMapping("/post/write")
-    public SuccessResponseDto addPost(@RequestBody PostRequestDto postRequestDto,
+    public HashMap<String, Long> addPost(@RequestBody PostRequestDto postRequestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         System.out.println(postRequestDto.getTitle());
         System.out.println(postRequestDto.getContents());
         System.out.println(postRequestDto.getPostUser());
 
-        postService.addPost(postRequestDto, userDetails);
-        return new SuccessResponseDto("게시글이 등록되었습니다.");
+        return postService.addPost(postRequestDto, userDetails);
 
     }
 
     // 게시글 수정 API
     @PutMapping("/posts/{postId}")
-    public SuccessResponseDto editPost(
+    public HashMap<String, Long> editPost(
             @PathVariable Long postId,
             @RequestBody PostRequestDto postRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        postService.editPost(postId,postRequestDto,userDetails);
-        return new SuccessResponseDto("게시글이 수정되었습니다.");
+        return postService.editPost(postId,postRequestDto,userDetails);
 
     }
 
     // 게시글 삭제 API
     @DeleteMapping("/posts/{postId}")
-    public SuccessResponseDto deletePost(
+    public HashMap<String, Long> deletePost(
             @PathVariable Long postId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        postService.deletePost(postId, userDetails);
-        return new SuccessResponseDto("게시글이 삭제되었습니다.");
+        return postService.deletePost(postId, userDetails);
+
 
     }
 
