@@ -10,5 +10,5 @@ import java.util.List;
 @Getter
 public class PostDto {
     public String loginUser;
-    public List<Post> posts;
+    public List<PostResponseDto> posts;
 }

@@ -4,6 +4,7 @@ package com.sparta.team6project.service;
 import com.sparta.team6project.dto.PostRequestDto;
 import com.sparta.team6project.dto.PostDetailResponseDto;
 import com.sparta.team6project.dto.PostDto;
+import com.sparta.team6project.dto.PostResponseDto;
 import com.sparta.team6project.model.Comment;
 import com.sparta.team6project.model.Post;
 import com.sparta.team6project.repository.CommentRepository;
@@ -12,6 +13,8 @@ import com.sparta.team6project.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -112,11 +115,24 @@ public class PostService {
         }
         // DB에서 시간순으로 정렬해서 불러옴
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+        List<PostResponseDto> responseDtos = new ArrayList<>();
+
+        for (int i = 0; i < posts.size(); i++){
+            PostResponseDto dto = new PostResponseDto();
+            dto.setPostId(posts.get(i).getId());
+            dto.setPostUser(posts.get(i).getPostUser());
+            dto.setCommentCount(posts.get(i).getComments().size());
+            dto.setTitle(posts.get(i).getTitle());
+            dto.setCreatedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(posts.get(i).getCreatedAt()));
+            responseDtos.add(dto);
+        }
+
         PostDto postDto = new PostDto();
         postDto.setLoginUser(loginUser);
-        postDto.setPosts(posts);
+        postDto.setPosts(responseDtos);
 
         return postDto;
+
 
     }
 }
