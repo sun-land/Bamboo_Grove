@@ -2,6 +2,7 @@ package com.sparta.team6project.service;
 
 
 import com.sparta.team6project.dto.CommentRequestDto;
+import com.sparta.team6project.dto.CommentResponseDto;
 import com.sparta.team6project.model.Comment;
 import com.sparta.team6project.model.Post;
 import com.sparta.team6project.repository.CommentRepository;
@@ -28,7 +29,7 @@ public class CommentService {
 
 
 
-    public HashMap<String, Long> createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+    public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
 
 
         Comment comment = new Comment(commentRequestDto);
@@ -43,9 +44,8 @@ public class CommentService {
         } else{
 
             Comment saveComment = commentRepository.save(comment);
-            HashMap<String, Long> responseId = new HashMap<>();
-            responseId.put("commentId", saveComment.getId());
-            return responseId;
+
+            return new CommentResponseDto(saveComment);
 
 
         }
@@ -54,7 +54,7 @@ public class CommentService {
 
 
 
-    public HashMap<String, Long> updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+    public CommentResponseDto updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
 
@@ -67,9 +67,8 @@ public class CommentService {
         if(comment.getCommentUser().equals(userDetails.getUsername())){
 
             Comment saveComment = commentRepository.save(comment);
-            HashMap<String, Long> responseId = new HashMap<>();
-            responseId.put("commentId", saveComment.getId());
-            return responseId;
+
+            return new CommentResponseDto(saveComment);
 
         } else{
             throw new IllegalArgumentException("댓글 수정에 실패하였습니다.");

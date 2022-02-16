@@ -15,16 +15,16 @@ public class PostDetailResponseDto {
     private String title;
     private String contents;
     private String createdAt;
-    private List<Comment> comments;
+    private List<CommentResponseDto> comments;
 
-    public PostDetailResponseDto(String loginUser, Post post) {
+    public PostDetailResponseDto(String loginUser, Post post, List<CommentResponseDto> comments) {
         this.loginUser = loginUser;
         this.postId = post.getId();
         this.postUser = post.getPostUser();
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.createdAt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(post.getCreatedAt());
-        this.comments = post.getComments();
+        this.comments = comments;
     }
 
 
