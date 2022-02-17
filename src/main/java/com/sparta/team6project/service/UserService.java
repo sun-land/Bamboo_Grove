@@ -4,10 +4,12 @@ package com.sparta.team6project.service;
 import com.sparta.team6project.RequestDto.SignupRequestDto;
 import com.sparta.team6project.model.User;
 import com.sparta.team6project.repository.UserRepository;
+import com.sparta.team6project.security.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,6 +40,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    // 로그인 유저네임 확인
+    public HashMap<String, String > loginCheck(UserDetailsImpl userDetails) {
+        String username = userDetails.getUsername();
+        HashMap<String, String> loginUsername = new HashMap<>();
+        loginUsername.put("username", username);
+        return loginUsername;
+    }
+
 
     // 유효성 검사 메소드
     private void isValidUser(SignupRequestDto requestDto) {
@@ -64,4 +74,6 @@ public class UserService {
             throw new IllegalArgumentException("패스워드가 일치하지 않습니다.");
         }
     }
+
+
 }

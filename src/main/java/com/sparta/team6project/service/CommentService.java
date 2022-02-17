@@ -36,7 +36,7 @@ public class CommentService {
         comment.setPost(post);
 
         String commentUser = comment.getCommentUser();
-        
+
         // 댓글을 생성하기 위해 로그인 유무확인
         if(commentUser==null || commentUser==""){
             throw new IllegalArgumentException("로그인이 필요합니다.");
