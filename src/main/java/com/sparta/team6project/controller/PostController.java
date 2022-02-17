@@ -23,12 +23,11 @@ public class PostController {
 
     // 게시글 작성 API
     @PostMapping("/post/write")
-    public PostSuccessResponseDto addPost(@RequestBody PostRequestDto postRequestDto,
-                                          @AuthenticationPrincipal UserDetailsImpl userDetails
+    public PostSuccessResponseDto addPost(
+            @RequestBody PostRequestDto postRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
         return postService.addPost(postRequestDto, userDetails);
-
     }
 
     // 게시글 수정 API
@@ -39,7 +38,6 @@ public class PostController {
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         return postService.editPost(postId,postRequestDto,userDetails);
-
     }
 
     // 게시글 삭제 API
@@ -49,14 +47,14 @@ public class PostController {
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         return postService.deletePost(postId, userDetails);
-
-
     }
 
     // 상세 게시글 조회 API
     @GetMapping("/getposts/{postId}")
-    public PostDetailResponseDto getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+    public PostDetailResponseDto getPost(
+            @PathVariable Long postId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
         return postService.getPost(postId, userDetails);
     }
 
