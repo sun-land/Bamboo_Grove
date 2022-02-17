@@ -2,13 +2,12 @@ package com.sparta.team6project.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sparta.team6project.dto.CommentRequestDto;
+import com.sparta.team6project.RequestDto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.

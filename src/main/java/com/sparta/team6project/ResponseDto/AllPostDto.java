@@ -1,4 +1,4 @@
-package com.sparta.team6project.dto;
+package com.sparta.team6project.ResponseDto;
 
 import lombok.Getter;
 import lombok.Setter;

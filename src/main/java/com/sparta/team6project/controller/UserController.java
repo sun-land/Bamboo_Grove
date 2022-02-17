@@ -1,6 +1,6 @@
 package com.sparta.team6project.controller;
 
-import com.sparta.team6project.dto.SignupRequestDto;
+import com.sparta.team6project.RequestDto.SignupRequestDto;
 import com.sparta.team6project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,13 +1,13 @@
 package com.sparta.team6project.controller;
 
-import com.sparta.team6project.dto.PostRequestDto;
-import com.sparta.team6project.dto.PostDetailResponseDto;
-import com.sparta.team6project.dto.PostSuccessResponseDto;
+import com.sparta.team6project.RequestDto.PostRequestDto;
+import com.sparta.team6project.ResponseDto.PostDetailResponseDto;
+import com.sparta.team6project.ResponseDto.PostSuccessResponseDto;
 import com.sparta.team6project.security.UserDetailsImpl;
 import com.sparta.team6project.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import com.sparta.team6project.dto.AllPostDto;
+import com.sparta.team6project.ResponseDto.AllPostDto;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
