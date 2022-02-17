@@ -30,11 +30,12 @@ public class CommentService {
     // 댓글 생성
     public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comment comment = new Comment(commentRequestDto);
-        String commentUser = comment.getCommentUser();
 
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 존재하지 않습니다."));
         comment.setCommentUser(userDetails.getUsername());
         comment.setPost(post);
+
+        String commentUser = comment.getCommentUser();
 
         // 댓글을 생성하기 위해 로그인 유무확인
         if(commentUser==null || commentUser==""){
