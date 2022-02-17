@@ -1,8 +1,7 @@
 package com.sparta.team6project.service;
 
 
-import com.sparta.team6project.dto.LoginRequestDto;
-import com.sparta.team6project.dto.SignupRequestDto;
+import com.sparta.team6project.RequestDto.SignupRequestDto;
 import com.sparta.team6project.model.User;
 import com.sparta.team6project.repository.UserRepository;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.sparta.team6project.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sparta.team6project.dto.PostRequestDto;
+import com.sparta.team6project.RequestDto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,8 +26,8 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String contents;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "post")
+    @JsonManagedReference // 직렬화 허용 어노테이션
+    @OneToMany(mappedBy = "post", orphanRemoval = true) // orpahRemanal = true 부모 삭제시 자식도 삭제
     private List<Comment> comments;
 
     // 생성자

@@ -6,9 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+// Global 예외처리
 @RestControllerAdvice
 public class RestApiExceptionHandler {
 
+    // IllegalArgumentException 예외처리
     @ExceptionHandler(value = { IllegalArgumentException.class})
     public ResponseEntity<Object> handleApiRequestException(IllegalArgumentException ex) {
         RestApiException restApiException = new RestApiException();
@@ -21,6 +23,7 @@ public class RestApiExceptionHandler {
         );
     }
 
+    // NullPointerException 예외처리
     @ExceptionHandler(value = { NullPointerException.class})
     public ResponseEntity<Object> handleApiRequestException(NullPointerException ex) {
         RestApiException restApiException = new RestApiException();

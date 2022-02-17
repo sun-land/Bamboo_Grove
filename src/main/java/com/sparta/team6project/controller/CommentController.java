@@ -1,13 +1,15 @@
 package com.sparta.team6project.controller;
 
-import com.sparta.team6project.dto.CommentRequestDto;
-import com.sparta.team6project.dto.SuccessResponseDto;
+import com.sparta.team6project.RequestDto.CommentRequestDto;
+import com.sparta.team6project.ResponseDto.CommentResponseDto;
 import com.sparta.team6project.security.UserDetailsImpl;
 import com.sparta.team6project.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 @RestController
 public class CommentController {
@@ -19,29 +21,21 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-
+    // 댓글 생성
     @PostMapping("/posts/comments/{postId}")
-//    public ResponseEntity createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto) {
-    public SuccessResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println(commentRequestDto.getCommentContents());
-        commentService.createComment(postId, commentRequestDto, userDetails);
-        return new SuccessResponseDto("댓글 생성 완료");
-
+    public CommentResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.createComment(postId, commentRequestDto, userDetails);
     }
 
-
+    // 댓글 수정
     @PutMapping("/comments/{commentId}")
-//    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
-    public SuccessResponseDto updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.updateComment(commentId, commentRequestDto, userDetails);
-        return new SuccessResponseDto("댓글 수정 완료");
+    public CommentResponseDto updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.updateComment(commentId, commentRequestDto, userDetails);
         }
 
-
+    // 댓글 삭제
     @DeleteMapping("/comments/{commentId}")
-//    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
-    public SuccessResponseDto deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.deleteComment(commentId, userDetails);
-        return new SuccessResponseDto("댓글 삭제 완료");
+    public HashMap<String, Long> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.deleteComment(commentId, userDetails);
     }
 }
