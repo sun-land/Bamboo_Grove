@@ -27,7 +27,7 @@ public class Post extends Timestamped {
     private String contents;
 
     @JsonManagedReference // 직렬화 허용 어노테이션
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", orphanRemoval = true) // orpahRemanal = true 부모 삭제시 자식도 삭제
     private List<Comment> comments;
 
     // 생성자

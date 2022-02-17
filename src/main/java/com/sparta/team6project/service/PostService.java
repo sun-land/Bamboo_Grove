@@ -68,10 +68,6 @@ public class PostService {
         // 게시글 유무, 게시글 작성자 일치 확인
         Post foundPost = isValidPostAndPostUser(postId, userDetails);
 
-        // 댓글 먼저 삭제
-        List<Comment> foundComments = commentRepository.findAllByPost(foundPost);
-        commentRepository.deleteAll(foundComments);
-
         // Response 만들기
         HashMap<String, Long> responseId = new HashMap<>();
         responseId.put("postId", foundPost.getId());
