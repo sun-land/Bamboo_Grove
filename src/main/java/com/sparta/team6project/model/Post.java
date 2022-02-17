@@ -26,7 +26,7 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String contents;
 
-    @JsonManagedReference
+    @JsonManagedReference // 직렬화 허용 어노테이션
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 

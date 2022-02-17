@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+// 상세게시글 조회할 때 반환해줄 responseDto
 @Getter
 public class PostDetailResponseDto {
     private String loginUser;
@@ -16,6 +17,7 @@ public class PostDetailResponseDto {
     private String createdAt;
     private List<CommentResponseDto> comments;
 
+    // 생성자
     public PostDetailResponseDto(String loginUser, Post post, List<CommentResponseDto> comments) {
         this.loginUser = loginUser;
         this.postId = post.getId();
