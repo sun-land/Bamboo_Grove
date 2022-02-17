@@ -110,7 +110,7 @@ public class PostService {
         // DB에서 시간순으로 정렬해서 불러옴
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto> responseDtos = new ArrayList<>();
-
+        // 생성시간 포멧을 바꾸기위해 꺼내서 createdAt의 포멧을 바꿔줘서 responseDtos 에 하나씩 넣어줌
         for (int i = 0; i < posts.size(); i++){
             PostResponseDto dto = new PostResponseDto();
             dto.setPostId(posts.get(i).getId());
@@ -120,7 +120,7 @@ public class PostService {
             dto.setCreatedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(posts.get(i).getCreatedAt()));
             responseDtos.add(dto);
         }
-
+        // postDto에 담아서 보내기
         AllPostDto postDto = new AllPostDto();
         postDto.setLoginUser(loginUser);
         postDto.setPosts(responseDtos);
