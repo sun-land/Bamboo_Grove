@@ -42,7 +42,13 @@ public class UserService {
 
     // 로그인 유저네임 확인
     public HashMap<String, String > loginCheck(UserDetailsImpl userDetails) {
-        String username = userDetails.getUsername();
+
+        String username = null;
+        // 로그인 식별하기
+        if(userDetails != null) {
+            username = userDetails.getUsername();
+        }
+
         HashMap<String, String> loginUsername = new HashMap<>();
         loginUsername.put("username", username);
         return loginUsername;
