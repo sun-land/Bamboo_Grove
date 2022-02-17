@@ -50,7 +50,7 @@ public class UserService {
         }
 
         HashMap<String, String> loginUsername = new HashMap<>();
-        loginUsername.put("username", username);
+        loginUsername.put("loginUser", username);
         return loginUsername;
     }
 
