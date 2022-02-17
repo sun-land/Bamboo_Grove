@@ -1,15 +1,14 @@
 package com.sparta.team6project.service;
 
 
-import com.sparta.team6project.dto.CommentRequestDto;
-import com.sparta.team6project.dto.CommentResponseDto;
+import com.sparta.team6project.RequestDto.CommentRequestDto;
+import com.sparta.team6project.ResponseDto.CommentResponseDto;
 import com.sparta.team6project.model.Comment;
 import com.sparta.team6project.model.Post;
 import com.sparta.team6project.repository.CommentRepository;
 import com.sparta.team6project.repository.PostRepository;
 import com.sparta.team6project.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

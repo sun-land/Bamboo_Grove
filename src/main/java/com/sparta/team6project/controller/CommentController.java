@@ -1,8 +1,7 @@
 package com.sparta.team6project.controller;
 
-import com.sparta.team6project.dto.CommentRequestDto;
-import com.sparta.team6project.dto.CommentResponseDto;
-import com.sparta.team6project.dto.SuccessResponseDto;
+import com.sparta.team6project.RequestDto.CommentRequestDto;
+import com.sparta.team6project.ResponseDto.CommentResponseDto;
 import com.sparta.team6project.security.UserDetailsImpl;
 import com.sparta.team6project.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;

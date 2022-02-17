@@ -1,7 +1,8 @@
 package com.sparta.team6project.service;
 
 
-import com.sparta.team6project.dto.*;
+import com.sparta.team6project.RequestDto.PostRequestDto;
+import com.sparta.team6project.ResponseDto.*;
 import com.sparta.team6project.model.Comment;
 import com.sparta.team6project.model.Post;
 import com.sparta.team6project.repository.CommentRepository;

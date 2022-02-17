@@ -1,7 +1,7 @@
 package com.sparta.team6project.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sparta.team6project.dto.PostRequestDto;
+import com.sparta.team6project.RequestDto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
