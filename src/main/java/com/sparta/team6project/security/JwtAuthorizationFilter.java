@@ -2,19 +2,24 @@ package com.sparta.team6project.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.sparta.team6project.exception.RestApiException;
 import com.sparta.team6project.model.User;
 import com.sparta.team6project.repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 // 시큐리티가 filter들을 가지고 있는데 그 필터중에 BasicAuthenticationFilter 가 있다.
 // 권한이나 인증이 필요한 특정 주소를 요청했을 때 위 필터를 무조건 타게 되어있다.
@@ -38,7 +43,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
         System.out.println("jwtHeader : " + jwtHeader);
 
-        // header가 있는지 확인
+        // header에서 jwt토큰이 없거나 Bearer 타입이 아니면 다시 필터를 타게함.
         if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
             chain.doFilter(request,response);
             return;
@@ -46,7 +51,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         //헤더에서 토큰 가져오기
         String jwtToken = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX,"");
-        // JWT토큰을 검증을 해서 정상적인 사용자인지 확인
+        // 토큰에서 유효시간 빼기
+        Date expireDate = JWT.require(Algorithm.HMAC256(JwtProperties.secretKey)).build().verify(jwtToken).getClaim("expireDate").asDate();
+        System.out.println("토큰 유효시간 : " + expireDate);
+        Date now = new Date();
+        System.out.println("현재시간 : " + now);
+        // 유효시간이 현재시간보다 이전이면 다시 필터를 타게함.
+        if (expireDate.before(now)) {
+            System.out.println("유효시간 지난 토큰입니다.");
+            chain.doFilter(request,response);
+            return;
+        }
+
+        // JWT토큰에서 username 빼기
         String username = JWT.require(Algorithm.HMAC256(JwtProperties.secretKey)).build().verify(jwtToken).getClaim("username").asString();
 
         // 서명이 정상적으로 됨
@@ -66,4 +83,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
         chain.doFilter(request, response);
     }
+
+
 }

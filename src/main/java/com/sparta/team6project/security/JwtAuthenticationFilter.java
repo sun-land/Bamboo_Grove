@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             e.printStackTrace();
         }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(requestDto.getUsername(), requestDto.getPassword());
-
+        // loadUserByUsername 실행됨
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -59,9 +59,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // Hash암호방식
         String jwtToken = JWT.create()
+                // 토큰이름?
                 .withSubject("jwtToken : "+userDetails.getUser().getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.tokenValidTime))
+                // 유효시간
+                .withClaim("expireDate", new Date(System.currentTimeMillis()+JwtProperties.tokenValidTime))
+                // jwt확인용 username
                 .withClaim("username", userDetails.getUser().getUsername())
+                // secretkey와 함께 HMAC256 복호화
                 .sign(Algorithm.HMAC256(JwtProperties.secretKey));
 
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
