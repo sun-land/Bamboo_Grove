@@ -26,7 +26,7 @@ public class UserController {
     }
 
     // 로그인 username 확인용 API
-    @GetMapping("/logincheck")
+    @PostMapping("/logincheck")
     public HashMap<String, String> loginCheck(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return userService.loginCheck(userDetails);
     }
