@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import java.time.format.DateTimeFormatter;
 
-// 댓글 작성, 수정 시 반환해줄 responseDto + 게시글 상세 조회할 때 comment리스트를 담는 responseDto
 @Getter
 public class CommentResponseDto {
     private String commentContents;
@@ -13,7 +12,6 @@ public class CommentResponseDto {
     private Long commentId;
     private String createdAt;
 
-    // 생성자
     public CommentResponseDto(Comment comment) {
         this.commentContents = comment.getCommentContents();
         this.commentUser = comment.getCommentUser();

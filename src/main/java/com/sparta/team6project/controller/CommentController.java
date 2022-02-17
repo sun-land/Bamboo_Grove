@@ -21,30 +21,21 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-
+    // 댓글 생성
     @PostMapping("/posts/comments/{postId}")
-//    public ResponseEntity createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto) {
     public CommentResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println(commentRequestDto.getCommentContents());
-
         return commentService.createComment(postId, commentRequestDto, userDetails);
-
     }
 
-
+    // 댓글 수정
     @PutMapping("/comments/{commentId}")
-//    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
     public CommentResponseDto updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.updateComment(commentId, commentRequestDto, userDetails);
-
-
         }
 
-
+    // 댓글 삭제
     @DeleteMapping("/comments/{commentId}")
-//    public ResponseEntity updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
     public HashMap<String, Long> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.deleteComment(commentId, userDetails);
-
     }
 }

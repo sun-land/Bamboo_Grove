@@ -27,58 +27,47 @@ public class CommentService {
     }
 
 
-
+    // 댓글 생성
     public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
-
-
         Comment comment = new Comment(commentRequestDto);
+        String commentUser = comment.getCommentUser();
+
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 존재하지 않습니다."));
         comment.setCommentUser(userDetails.getUsername());
         comment.setPost(post);
 
-        String commentUser = comment.getCommentUser();
-
+        // 댓글을 생성하기 위해 로그인 유무확인
         if(commentUser==null || commentUser==""){
             throw new IllegalArgumentException("로그인이 필요합니다.");
         } else{
-
             Comment saveComment = commentRepository.save(comment);
-
             return new CommentResponseDto(saveComment);
-
-
         }
     }
 
 
-
-
+    // 댓글 수정
     public CommentResponseDto updateComment(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
-
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
 
-
-        String commentUser = comment.getCommentUser();
         comment.setCommentContents(commentRequestDto.getCommentContents());
-
 
         // 댓글 쓴 사람이 로그인한 사람인지 확인
         if(comment.getCommentUser().equals(userDetails.getUsername())){
-
             Comment saveComment = commentRepository.save(comment);
-
             return new CommentResponseDto(saveComment);
-
         } else{
             throw new IllegalArgumentException("댓글 수정에 실패하였습니다.");
-
         }
     }
 
+
+    // 댓글 삭제
     public HashMap<String, Long> deleteComment(Long commentId, UserDetailsImpl userDetails) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
 
         if(comment.getCommentUser().equals(userDetails.getUsername())){
+            // 댓글 삭제 후 삭제한 댓글의 ID 리턴
             HashMap<String, Long> responseId = new HashMap<>();
             responseId.put("commentId", comment.getId());
             commentRepository.deleteById(commentId);
