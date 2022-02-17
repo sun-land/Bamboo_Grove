@@ -32,10 +32,10 @@
 
 # API 명세서
 
-![API](https://user-images.githubusercontent.com/94432600/154421595-138916c1-a0b8-43b7-b0c5-515b386ec3e3.PNG)
+![API](https://user-images.githubusercontent.com/94432600/154426613-1b433fcb-b32b-4c4c-822c-e9ad50a73fd6.PNG)
 ![API](https://user-images.githubusercontent.com/94432600/154421737-3ca33844-8877-44d0-a2c2-ebea91a052ad.PNG)
-![API](https://user-images.githubusercontent.com/94432600/154421776-b48b8528-0811-4a5d-937c-ae3a11d5186f.PNG)
-![API](https://user-images.githubusercontent.com/94432600/154421824-d1854e5b-12d5-486a-aece-0657f30c573a.PNG)
+![API](https://user-images.githubusercontent.com/94432600/154426626-0c90457c-5143-4cb9-bbf5-b5fb019ef14d.PNG)
+![API](https://user-images.githubusercontent.com/94432600/154427118-89bec97a-8462-497d-95a3-c78b14e31bf2.PNG)
 ![API](https://user-images.githubusercontent.com/94432600/154421869-442dff40-9f23-4229-bc41-f24df8277738.PNG)
 
 
